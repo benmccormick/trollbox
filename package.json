@@ -1,0 +1,22 @@
+{
+  "name": "Trollbox",
+  "version": "0.0.1",
+  "description": "A fast viewer for Trello",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron main.js",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [],
+  "author": "Ben McCormick",
+  "devDependencies": {
+    "css-loader": "^0.23.1",
+    "electron-prebuilt": "^1.0.1",
+    "webpack": "^1.13.0",
+    "webpack-target-electron-renderer": "^0.4.0"
+  }
+}
