@@ -1,15 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Hello} from './test';
-import Trello from 'troll-client';
-const {ipcRenderer} = require('electron');
+import { Provider } from 'react-redux';
+import {App} from './modules/app/app.component';
+import {store} from './setup/store';
+import {getAllCards} from './actions/fetching/cards';
 
-ReactDOM.render(<Hello/>, document.getElementById('container'))
+store.dispatch(getAllCards);
 
-let t = new Trello(window.trelloKey);
-
-ipcRenderer.send('get-token');
-ipcRenderer.on('set-token', (event, token) => {
-    t.setToken(token);
-    t.get('members/me').then((data) => console.log(data));
-})
+ReactDOM.render(<Provider store={store}>
+        <App/>
+    </Provider>, document.getElementById('container'));
