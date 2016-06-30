@@ -3,7 +3,7 @@ import {cleanCardsFromAPI} from '../../util/api_cleaner';
 
 export const UPDATE_CARDS = 'UPDATE_CARDS';
 
-const getCardsFromClient = dispatch => t => (t.get('member/me/cards').then(cards => {
+const getCardsFromClient = (dispatch, getState) => t => (t.get('member/me/cards').then(cards => {
     dispatch({
         type: UPDATE_CARDS,
         cards: cleanCardsFromAPI(cards),

@@ -9,11 +9,7 @@
     bottom: 0;
 }
 
-.leftBar {
-    height: inherit;
-    width: 200px;
-}
-
+/* just this for now */
 .content {
     height: inherit;
     flex-grow: 2;
