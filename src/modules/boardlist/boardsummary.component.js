@@ -8,7 +8,7 @@ export const BoardSummary = ({board, isSelected, toggleBoard}) => {
     };
     return (<div className={boardSummary} style={style} onClick={toggleBoard}>
         <h2 className={boardTitle}>{board.name}</h2>
-        <a href={board.shortUrl}>🔗</a>
+        {/*<a href={board.shortUrl}>🔗</a>*/}
     </div>);
 };
 

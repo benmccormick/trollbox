@@ -1,5 +1,5 @@
 import { UPDATE_BOARDS } from '../actions/fetching/boards';
-import {assign, get, sortBy, without, union, includes, map} from 'lodash';
+import {assign, get, sortBy, without, union, includes, map, filter} from 'lodash';
 import {SELECT_BOARD, DESELECT_BOARD} from '../actions/boardselection';
 
 const byMostRecent = board => {
@@ -10,11 +10,11 @@ const byMostRecent = board => {
     return 0 - Date.parse(dateLastView);
 };
 
-const getBoards = state => get(state, 'data.boards');
+const getOpenBoards = state => filter(get(state, 'data.boards', []), b => !b.closed);
 
 const getSelected = state => get(state, 'data.selectedBoards');
 
-const getSortedBoards = state => sortBy(getBoards(state), byMostRecent);
+const getSortedBoards = state => sortBy(getOpenBoards(state), byMostRecent);
 
 const isSelected = (state, board) => includes(getSelected(state), board.id);
 
