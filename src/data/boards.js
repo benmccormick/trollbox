@@ -2,6 +2,8 @@ import { UPDATE_BOARDS } from '../actions/fetching/boards';
 import {assign, get, sortBy, without, union, includes, map, filter} from 'lodash';
 import {SELECT_BOARD, DESELECT_BOARD} from '../actions/boardselection';
 
+export const getSelectedBoards = state => get(state, 'data.selectedBoards');
+
 const byMostRecent = board => {
     let {dateLastView} = board;
     if (!dateLastView) {
@@ -12,11 +14,9 @@ const byMostRecent = board => {
 
 const getOpenBoards = state => filter(get(state, 'data.boards', []), b => !b.closed);
 
-const getSelected = state => get(state, 'data.selectedBoards');
-
 const getSortedBoards = state => sortBy(getOpenBoards(state), byMostRecent);
 
-const isSelected = (state, board) => includes(getSelected(state), board.id);
+const isSelected = (state, board) => includes(getSelectedBoards(state), board.id);
 
 const updateBoard = state => board => assign(board, {isSelected: isSelected(state, board)});
 

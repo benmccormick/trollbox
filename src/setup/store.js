@@ -8,12 +8,13 @@ const middlewares = [thunk];
 
 //make this conditional later
 const logger = createLogger();
+middlewares.push(logger);
+
 let enhancer = compose(
     applyMiddleware(...middlewares),
     persistState()
 );
 
-middlewares.push(logger);
 
 const reducers = combineReducers({
     data,
