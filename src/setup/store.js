@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import createLogger from 'redux-logger';
 import data from '../data/index';
@@ -15,9 +15,4 @@ let enhancer = compose(
     persistState()
 );
 
-
-const reducers = combineReducers({
-    data,
-});
-
-export const store = createStore(reducers, enhancer);
+export const store = createStore(data, enhancer);

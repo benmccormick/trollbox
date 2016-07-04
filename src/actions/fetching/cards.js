@@ -27,17 +27,3 @@ const getCardsFromEachBoard = (dispatch, getState) => t => {
 export const getAllCardsFromBoards = (dispatch, getState) => {
     getTrelloClient().then(getCardsFromEachBoard(dispatch, getState));
 };
-
-
-// const getCardsFromClient = (dispatch, getState) => t => (t.get('member/me/cards').then(cards => {
-//     dispatch({
-//         type: UPDATE_CARDS,
-//         cards: cleanCardsFromAPI(cards),
-//     });
-// }));
-//
-// export const getAllCards = (dispatch) => {
-//     getTrelloClient()
-//         .then(getCardsFromClient(dispatch))
-//         .catch(() => alert('failed to get trello client'));
-// };
