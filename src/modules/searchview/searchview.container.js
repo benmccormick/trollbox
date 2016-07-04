@@ -2,8 +2,9 @@ import { bindActionCreators } from 'redux';
 import React from 'react';
 import { connect } from 'react-redux';
 import { switchViewToBoards } from '../../actions/view';
-import { getSearchFilter } from '../../data/search';
+import { getSearchFilter, getSearchResults } from '../../data/search';
 import { updateSearchFilter } from '../../actions/search';
+import { map } from 'lodash';
 
 
 export class SearchView extends React.Component {
@@ -13,7 +14,10 @@ export class SearchView extends React.Component {
     }
 
     render() {
-        let {searchFilter} = this.props;
+        let {searchFilter, results} = this.props;
+        let cards = map(results, card => {
+            return <div>{card.name}</div>;
+        });
         return (<div>
             <div>
                 <button onClick={this.props.switchViewToBoards}>See Boards</button>
@@ -25,6 +29,9 @@ export class SearchView extends React.Component {
                     onKeyUp={() => this.onChange()}
                 />
             </div>
+            <div>
+                {cards}
+            </div>
         </div>);
     }
 }
@@ -33,11 +40,13 @@ SearchView.propTypes = {
     switchViewToBoards: React.PropTypes.func.isRequired,
     searchFilter: React.PropTypes.string.isRequired,
     updateSearchFilter: React.PropTypes.func.isRequired,
+    results: React.PropTypes.array.isRequired,
 };
 
 
 const mapStateToProps = (state) => ({
     searchFilter: getSearchFilter(state),
+    results: getSearchResults(state),
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
