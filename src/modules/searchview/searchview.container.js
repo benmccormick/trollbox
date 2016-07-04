@@ -4,7 +4,9 @@ import { connect } from 'react-redux';
 import { switchViewToBoards } from '../../actions/view';
 import { getSearchFilter, getSearchResults } from '../../data/search';
 import { updateSearchFilter } from '../../actions/search';
+import { CardView } from './card.component';
 import { map } from 'lodash';
+import { searchContainer, searchInput, searchPage} from './search.css';
 
 
 export class SearchView extends React.Component {
@@ -16,20 +18,21 @@ export class SearchView extends React.Component {
     render() {
         let {searchFilter, results} = this.props;
         let cards = map(results, card => {
-            return <div>{card.name}</div>;
+            return <CardView card={card} />;
         });
-        return (<div>
+        return (<div className={searchPage}>
             <div>
                 <button onClick={this.props.switchViewToBoards}>See Boards</button>
             </div>
-            <div>
-                <input
-                    defaultValue={searchFilter}
-                    ref={el => this.searchField = el}
-                    onKeyUp={() => this.onChange()}
-                />
-            </div>
-            <div>
+            <div className={searchContainer}>
+                <div>
+                    <input
+                        className={searchInput}
+                        defaultValue={searchFilter}
+                        ref={el => this.searchField = el}
+                        onKeyUp={() => this.onChange()}
+                    />
+                </div>
                 {cards}
             </div>
         </div>);

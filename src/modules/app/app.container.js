@@ -22,9 +22,7 @@ export class App extends React.Component {
             break;
         }
         return (<div className={appShell}>
-            <div>
-                {page}
-            </div>
+            {page}
         </div>);
     }
 };
