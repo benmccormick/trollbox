@@ -6,6 +6,7 @@ import { BoardSummary } from './boardsummary.component';
 import {selectBoard, deselectBoard} from '../../actions/boardselection';
 import { map } from 'lodash';
 import {boardsContainer} from './boardlist.css';
+import { switchViewToSearch } from '../../actions/view';
 
 let toggleBoard = (isSelected, deselect, select, id) => {
     return isSelected ? () => deselect(id) : () => select(id);
@@ -25,8 +26,13 @@ export class BoardList extends React.Component {
             />
         ));
 
-        return <div className={boardsContainer}>
-            {boardNodes}
+        return <div>
+            <div>
+                <button onClick={this.props.switchViewToSearch}>Back to Search</button>
+            </div>
+            <div className={boardsContainer}>
+                {boardNodes}
+            </div>
         </div>;
 
     }
@@ -36,6 +42,7 @@ BoardList.propTypes = {
     boards: React.PropTypes.array.isRequired,
     selectBoard: React.PropTypes.func.isRequired,
     deselectBoard: React.PropTypes.func.isRequired,
+    switchViewToSearch: React.PropTypes.func.isRequired,
 };
 
 
@@ -46,6 +53,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => bindActionCreators({
     selectBoard,
     deselectBoard,
+    switchViewToSearch,
 }, dispatch);
 
 

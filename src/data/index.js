@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import { cards } from './cards';
 import { view } from './view';
+import { searchFilter } from './search';
 import { boards, selectedBoards } from './boards';
 
 export default combineReducers({
@@ -8,4 +9,5 @@ export default combineReducers({
     boards,
     selectedBoards,
     view,
+    searchFilter,
 });
