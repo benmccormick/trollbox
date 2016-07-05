@@ -3,6 +3,7 @@
 
 [libs]
 ./node_modules/fbjs/flow/lib
+./node_modules/iflow-lodash/index.js.flow
 
 [options]
 suppress_type=$FlowIssue

@@ -1,21 +1,29 @@
+/* @flow */
 import { map, includes, sortBy, take} from 'lodash';
+import type {Card} from '../interfaces/trello';
 import moment from 'moment';
 
-let score, scoreName, scoreRecency;
+type ScoredCard = [string, number, Card];
+type ResultSet = [Card, Card, Card, Card, Card];
 
-export const find = (cards, filterStr) => {
+let score, scoreName, scoreRecency, buildScoreArr, getScore, getCard;
+
+
+export const find = (cards: Card[], filterStr: string): ResultSet => {
     //For now we care about name and dateLastActivity
     //we'll award between 0 and 100 points for a card name match and
     //between 0 and 10 points for a recency bonus
-    let scores = sortBy(map(cards, card => [card.id, score(card, filterStr), card]),
-        ([id, givenScore]) => 0 - givenScore);
-
-    return map(take(scores, 5), ([id, givenScore, card]) => card);
+    let scores: ScoredCard[] = sortBy(map(cards, buildScoreArr(filterStr)), getScore );
+    let selectedCards: ResultSet = map(take(scores, 5), getCard);
+    return selectedCards;
 
 };
 
 
-score = (card, filterStr) => {
+buildScoreArr = (filterStr:string) => (card: Card): ScoredCard =>
+    [card.id, score(card, filterStr), card];
+
+score = (card: Card, filterStr: string): number => {
     //For now we care about name and dateLastActivity
     //we'll award between 0 and 100 points for a card name match and
     //between 0 and 10 points for a recency bonus
@@ -23,8 +31,10 @@ score = (card, filterStr) => {
 };
 
 
-scoreName = (card, filterStr) => {
+scoreName = (card: Card, filterStr: string): number => {
     let {name} = card;
+    let test = card.foo;
+    console.log(test);
     //just very direct for now
     if (includes(name, filterStr)) {
         return 100;
@@ -55,3 +65,7 @@ scoreRecency = card => {
     }
     return 0;
 };
+
+getScore = (scoredCard: ScoredCard): number => 0 - scoredCard[1];
+
+getCard = (scoredCard: ScoredCard): Card => scoredCard[2];

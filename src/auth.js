@@ -1,3 +1,4 @@
+/* @flow */
 import Trello from 'troll-client';
 
 let t = new Trello(window.trelloKey, { });

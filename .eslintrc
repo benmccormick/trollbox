@@ -1,5 +1,6 @@
 //ESLint Configuration (eslint allows comments in JSON, use them)
 {
+    "parser": "babel-eslint",
     "parserOptions": {
 
         "ecmaVersion": 6,
@@ -11,7 +12,10 @@
     "env": {
        "browser": true,
     },
-    "plugins":["react"],
+    "plugins":[
+        "flowtype",
+        "react"
+    ],
      "extends": ["plugin:react/recommended"],
     "rules": {
         "brace-style": [2, "1tbs"],

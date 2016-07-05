@@ -1,0 +1,20 @@
+export type Card = {
+    id: string,
+    dateLastActivity: string,
+    name: string,
+    description: string,
+    shortUrl: string,
+    url: string,
+    idBoard: string,
+    idList: string,
+    closed: boolean,
+};
+
+export type Board = {
+    id: string,
+    dateLastActivity: string,
+    name: string,
+    shortUrl: string,
+    url: string,
+    closed: boolean,
+};
