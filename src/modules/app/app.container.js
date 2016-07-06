@@ -1,3 +1,4 @@
+/* @flow */
 import React from 'react';
 import {appShell} from './app.css';
 import {BoardListContainer} from '../boardlist/boardlist.container';

@@ -1,3 +1,4 @@
+/* @flow */
 import { bindActionCreators } from 'redux';
 import React from 'react';
 import { connect } from 'react-redux';

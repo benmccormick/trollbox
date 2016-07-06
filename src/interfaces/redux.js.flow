@@ -1,0 +1,10 @@
+import { CHANGE_VIEW, SEARCH_VIEW, BOARD_VIEW } from '../actions/view';
+
+
+export type viewOption = SEARCH_VIEW | BOARD_VIEW;
+type changeViewAction = {
+    type: CHANGE_VIEW,
+    view: viewOption,
+};
+
+export type action = changeViewAction;

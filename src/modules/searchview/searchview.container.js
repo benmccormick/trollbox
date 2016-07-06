@@ -1,3 +1,4 @@
+/* @flow */
 import { bindActionCreators } from 'redux';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -8,11 +9,23 @@ import { CardView } from './card.component';
 import { map } from 'lodash';
 import { searchContainer, searchInput, searchPage} from './search.css';
 
+type Input = {
+    value: string
+};
 
 export class SearchView extends React.Component {
 
+    searchField: ?Input;
+
+    constructor(props: any) {
+        super(props);
+        this.searchField = null;
+    }
+
     onChange() {
-        this.props.updateSearchFilter(this.searchField.value);
+        if (this.searchField) {
+            this.props.updateSearchFilter(this.searchField.value);
+        }
     }
 
     render() {

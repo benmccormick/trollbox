@@ -1,3 +1,4 @@
+/* @flow */
 import Trello from 'troll-client';
 const {ipcRenderer} = require('electron');
 
