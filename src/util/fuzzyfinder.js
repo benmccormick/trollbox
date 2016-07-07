@@ -4,7 +4,7 @@ import type {Card} from '../interfaces/trello';
 import moment from 'moment';
 
 type ScoredCard = [string, number, Card];
-type ResultSet = [Card, Card, Card, Card, Card];
+export type ResultSet = [Card, Card, Card, Card, Card];
 
 let score, scoreName, scoreRecency, buildScoreArr, getScore, getCard;
 
@@ -33,8 +33,6 @@ score = (card: Card, filterStr: string): number => {
 
 scoreName = (card: Card, filterStr: string): number => {
     let {name} = card;
-    let test = card.foo;
-    console.log(test);
     //just very direct for now
     if (includes(name, filterStr)) {
         return 100;

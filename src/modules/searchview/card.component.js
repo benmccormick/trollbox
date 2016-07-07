@@ -1,7 +1,7 @@
 /* @flow */
 import React from 'react';
 import {cardContainer, cardName, cardLink} from './search.css';
-import {Card} from '../../interfaces/trello';
+import type {Card} from '../../interfaces/trello';
 
 type CVProps = {
     card: Card

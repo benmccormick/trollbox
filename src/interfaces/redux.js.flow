@@ -1,10 +1,44 @@
 import { CHANGE_VIEW, SEARCH_VIEW, BOARD_VIEW } from '../actions/view';
-
+import { CHANGE_SEARCH_FILTER } from '../actions/search';
+import { UPDATE_CARDS } from '../actions/fetching/cards';
+import { UPDATE_BOARDS } from '../actions/fetching/boards';
+import {SELECT_BOARD, DESELECT_BOARD} from '../actions/boardselection';
+import { Card, Board } from './trello';
 
 export type viewOption = SEARCH_VIEW | BOARD_VIEW;
-type changeViewAction = {
+export type changeViewAction = {
     type: CHANGE_VIEW,
     view: viewOption,
 };
 
-export type action = changeViewAction;
+export type CardMap = { [key: string]: Card };
+export type updateCardsAction = {
+    type: UPDATE_CARDS,
+    cards: CardMap,
+};
+
+export type boardMap = { [key: string]: Board };
+export type updateBoardsAction = {
+    type: UPDATE_BOARDS,
+    cards: boardMap,
+};
+
+export type changeSearchFilterAction = {
+    type: CHANGE_SEARCH_FILTER,
+    filter: string,
+};
+
+export type toggleBoardAction = {
+    type: SELECT_BOARD | DESELECT_BOARD,
+    boardId: string,
+};
+
+export type actionType =
+                    changeViewAction |
+                    updateCardsAction |
+                    updateBoardsAction |
+                    toggleBoardAction |
+                    changeSearchFilterAction;
+
+export type dispatchFn = (x: actionType) => void;
+export type getStateFn = () => any;

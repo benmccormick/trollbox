@@ -1,7 +1,7 @@
 /* @flow */
 import React from 'react';
 import {boardSummary, boardTitle} from './boardlist.css';
-import {Board} from '../../interfaces/trello';
+import type {Board} from '../../interfaces/trello';
 
 type BSProps = {
     board: Board,

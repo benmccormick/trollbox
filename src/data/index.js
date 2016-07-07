@@ -1,3 +1,4 @@
+/* @flow */
 import { combineReducers } from 'redux';
 import { cards } from './cards';
 import { view } from './view';
