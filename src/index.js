@@ -4,9 +4,9 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import {AppContainer} from './modules/app/app.container';
 import {store} from './setup/store';
-import {getAllBoards} from './actions/fetching/boards';
+import {retrieveUserData} from './setup/data';
 
-store.dispatch(getAllBoards);
+retrieveUserData(store);
 
 ReactDOM.render(<Provider store={store}>
         <AppContainer/>

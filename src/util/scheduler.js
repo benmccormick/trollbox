@@ -1,9 +1,9 @@
 /* @flow */
-import {forEach, compact, assign} from 'lodash';
+import {compact, assign, remove, map} from 'lodash';
 //intervals
-export const IMMEDIATE:number = 30;
+export const IMMEDIATE:number = 0;
 export const THIRTY_SEC:number = 30;
-export const ONE_MINUTE:number = 60;
+export const ONE_MINUTE:number = THIRTY_SEC * 2;
 export const FIVE_MINUTE:number = ONE_MINUTE * 5;
 export const TEN_MINUTE:number = ONE_MINUTE * 10;
 export const HALF_HOUR:number = ONE_MINUTE * 30;
@@ -12,27 +12,28 @@ export const TWO_HOURS:number = ONE_HOUR * 2;
 export const THREE_HOURS:number = ONE_HOUR * 3;
 export const ONE_DAY:number = ONE_HOUR * 24;
 
-type interval = 0 | 30 | 60 | 300 | 600 | 1800 | 3600 | 7200 | 9000 | 86400;
 
 type newJob = {
-    interval: interval,
+    interval: number,
+    name: string,
     jobFn: () => void,
     runOnce: boolean,
 };
 
 type job = {
     id: number,
-    interval: interval,
+    name: string,
+    interval: number,
     jobFn: () => void,
     runOnce: boolean,
 };
 
 type maybejob = job | null | false | '' | 0;
 
-let jobQueue: maybejob[] = [];
+let jobQueue: job[] = [];
 let currentTime: number = 0;
 let nextJobId: number = 1;
-let runJobs, compactQueue;
+let runJobs;
 
 export const startScheduler = () => {
     setInterval(() => {
@@ -41,29 +42,33 @@ export const startScheduler = () => {
         if (currentTime > ONE_DAY) {
             currentTime = currentTime % ONE_DAY;
         }
-    }, 30);
+    }, 30000);
 };
 
 export const addJob = (j: newJob) => {
+    let id = nextJobId;
     let newJ: job = assign({
-        id: nextJobId,
+        id,
     }, j);
     jobQueue.push(newJ);
+    nextJobId++;
+    return id;
+};
+
+export const cancelJob = (jobId: number) => {
+    remove(jobQueue, (j:job) => j.id === jobId);
 };
 
 runJobs = () => {
-    forEach(jobQueue, (j: job, idx: number) => {
+    let updatedQueue: maybejob[] = map(jobQueue, (j: job, idx: number) => {
+
         if (currentTime % j.interval === 0) {
             //call without a this context
-            j.jobFn.bind(undefined)();
-            if (j.runOnce) {
-                jobQueue[idx] = null;
-            }
+            let {jobFn} = j;
+            jobFn();
+            return j.runOnce ? null : j;
         }
+        return j;
     });
-    compactQueue();
-};
-
-compactQueue = () => {
-    jobQueue = compact(jobQueue);
+    jobQueue = compact(updatedQueue);
 };
