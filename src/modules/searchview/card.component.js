@@ -1,7 +1,8 @@
 /* @flow */
 import React from 'react';
-import {cardContainer, cardName, cardLink} from './search.css';
+import {cardContainer, cardName} from './search.css';
 import type {Card} from '../../interfaces/trello';
+let {shell} = require('electron');
 
 type CVProps = {
     card: Card
@@ -10,8 +11,7 @@ type CVProps = {
 export const CardView = (props: CVProps) => {
     let {name, shortUrl} = props.card;
     //TODO: Replace the onclick here with a real navigation function once I have internet :)
-    return (<div className={cardContainer}>
+    return (<div className={cardContainer} onClick={()=> shell.openExternal(shortUrl)} >
         <span className={cardName}>{name}</span>
-        <span onClick={()=> console.log(shortUrl)} className={cardLink}>Link</span>
     </div>);
 };
