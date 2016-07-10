@@ -28,6 +28,8 @@ const updateBoard = (state: any) => (board: Board): Board =>
 export const getAllBoards = (state: any): Board[] =>
     map(getSortedBoards(state), updateBoard(state));
 
+export const getBoardById = (state: any, id: string): ?Board => get(state, ['boards', id], null);
+
 export const boards = (state : boardMap = {}, action: actionType): boardMap => {
     let { type, boards: _boards } = action;
     switch (type) {

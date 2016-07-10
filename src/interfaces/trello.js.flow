@@ -17,4 +17,7 @@ export type Board = {
     shortUrl: string,
     url: string,
     closed: boolean,
+    prefs: {
+        backgroundColor: string,
+    }
 };
