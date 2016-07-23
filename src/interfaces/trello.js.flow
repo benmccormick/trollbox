@@ -21,3 +21,9 @@ export type Board = {
         backgroundColor: string,
     }
 };
+
+export type List = {
+    id: string,
+    name: string,
+    idBoard: string,
+};

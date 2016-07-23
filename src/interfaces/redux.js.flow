@@ -1,9 +1,10 @@
 import { CHANGE_VIEW, SEARCH_VIEW, BOARD_VIEW } from '../actions/view';
 import { CHANGE_SEARCH_FILTER } from '../actions/search';
 import { UPDATE_CARDS } from '../actions/fetching/cards';
+import { UPDATE_LISTS } from '../actions/fetching/lists';
 import { UPDATE_BOARDS } from '../actions/fetching/boards';
 import {SELECT_BOARD, DESELECT_BOARD} from '../actions/boardselection';
-import { Card, Board } from './trello';
+import { Card, Board, List } from './trello';
 
 export type viewOption = SEARCH_VIEW | BOARD_VIEW;
 export type changeViewAction = {
@@ -23,6 +24,12 @@ export type updateBoardsAction = {
     cards: boardMap,
 };
 
+export type listMap = { [key: string]: List };
+export type updateListsAction = {
+    type: UPDATE_LISTS,
+    lists: ListMap,
+};
+
 export type changeSearchFilterAction = {
     type: CHANGE_SEARCH_FILTER,
     filter: string,
@@ -34,11 +41,12 @@ export type toggleBoardAction = {
 };
 
 export type actionType =
-                    changeViewAction |
-                    updateCardsAction |
-                    updateBoardsAction |
-                    toggleBoardAction |
-                    changeSearchFilterAction;
+    changeViewAction |
+    updateCardsAction |
+    updateBoardsAction |
+    updateListsAction |
+    toggleBoardAction |
+    changeSearchFilterAction;
 
 export type dispatchFn = (x: actionType) => void;
 export type getStateFn = () => any;
