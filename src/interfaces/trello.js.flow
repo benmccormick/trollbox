@@ -27,3 +27,11 @@ export type List = {
     name: string,
     idBoard: string,
 };
+
+export type User = {
+    id: string,
+    avatarHash: string,
+    fullName: string,
+    initials: string,
+    username: string,
+};

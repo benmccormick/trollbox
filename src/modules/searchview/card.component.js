@@ -1,5 +1,6 @@
 /* @flow */
 import React from 'react';
+import {get} from 'lodash';
 import {cardContainer, cardName, cardHeader, cardBody} from './search.css';
 import type {Card} from '../../interfaces/trello';
 let {shell} = require('electron');
@@ -9,7 +10,7 @@ type CVProps = {
 };
 
 export const CardView = (props: CVProps) => {
-    let {name, shortUrl, board, list} = props.card;
+    let {name, shortUrl, board, list, members} = props.card;
     let {prefs: {
         backgroundColor
     }, name: boardName} = board;
@@ -20,7 +21,12 @@ export const CardView = (props: CVProps) => {
             <span>{boardName} - {listName}</span>
         </div>
         <div className={cardBody}>
-            <span className={cardName}>{name}</span>
+            <div>
+                <span className={cardName}>{name}</span>
+            </div>
+            <div>
+            {members.map(member => <img src={get(member, 'avatarURL')}/>)}
+            </div>
         </div>
     </div>);
 };

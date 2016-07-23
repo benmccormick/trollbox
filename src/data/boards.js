@@ -3,7 +3,7 @@ import { UPDATE_BOARDS } from '../actions/fetching/boards';
 import {assign, get, sortBy, without, union, includes, map, filter} from 'lodash';
 import {SELECT_BOARD, DESELECT_BOARD} from '../actions/boardselection';
 import type {Board} from '../interfaces/trello';
-import type { actionType, boardMap } from '../interfaces/redux';
+import type { actionType, BoardMap } from '../interfaces/redux';
 
 export const getSelectedBoards = (state: any): string[] => get(state, 'selectedBoards');
 
@@ -30,7 +30,7 @@ export const getAllBoards = (state: any): Board[] =>
 
 export const getBoardById = (state: any, id: string): ?Board => get(state, ['boards', id], null);
 
-export const boards = (state : boardMap = {}, action: actionType): boardMap => {
+export const boards = (state : BoardMap = {}, action: actionType): BoardMap => {
     let { type, boards: _boards } = action;
     switch (type) {
     case UPDATE_BOARDS:

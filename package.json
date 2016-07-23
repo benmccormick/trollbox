@@ -24,7 +24,7 @@
     "redux-localstorage": "^0.4.1",
     "redux-logger": "^2.6.1",
     "redux-thunk": "^2.1.0",
-    "troll-client": "^0.0.3"
+    "troll-client": "^0.0.4"
   },
   "devDependencies": {
     "babel-cli": "^6.7.7",

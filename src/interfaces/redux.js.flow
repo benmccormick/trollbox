@@ -3,6 +3,7 @@ import { CHANGE_SEARCH_FILTER } from '../actions/search';
 import { UPDATE_CARDS } from '../actions/fetching/cards';
 import { UPDATE_LISTS } from '../actions/fetching/lists';
 import { UPDATE_BOARDS } from '../actions/fetching/boards';
+import { UPDATE_USERS } from '../actions/fetching/users';
 import {SELECT_BOARD, DESELECT_BOARD} from '../actions/boardselection';
 import { Card, Board, List } from './trello';
 
@@ -18,16 +19,22 @@ export type updateCardsAction = {
     cards: CardMap,
 };
 
-export type boardMap = { [key: string]: Board };
+export type BoardMap = { [key: string]: Board };
 export type updateBoardsAction = {
     type: UPDATE_BOARDS,
-    cards: boardMap,
+    cards: BoardMap,
 };
 
-export type listMap = { [key: string]: List };
+export type ListMap = { [key: string]: List };
 export type updateListsAction = {
     type: UPDATE_LISTS,
     lists: ListMap,
+};
+
+export type UserMap = { [key: string]: List };
+export type updateUsersAction = {
+    type: UPDATE_USERS,
+    lists: UserMap,
 };
 
 export type changeSearchFilterAction = {
