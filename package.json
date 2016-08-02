@@ -1,11 +1,14 @@
 {
   "name": "Trollbox",
+  "productName": "Trollbox",
   "version": "0.0.1",
   "description": "A fast search tool for Trello",
   "main": "main.js",
   "scripts": {
-    "start": "electron main.js",
+    "start": "NODE_ENV=development && electron main.js",
+    "startProd": "NODE_ENV=production && electron main.js",
     "flow": "flow; test $? -eq 0 -o $? -eq 2",
+    "package": "NODE_ENV=production && node package.js",
     "build": "webpack"
   },
   "repository": {
@@ -34,6 +37,8 @@
     "babel-plugin-transform-es2015-modules-commonjs": "^6.8.0",
     "babel-preset-react": "^6.5.0",
     "css-loader": "^0.23.1",
+    "del": "^2.2.1",
+    "electron-packager": "^7.4.0",
     "electron-prebuilt": "^1.2.1",
     "empty": "^0.10.1",
     "eslint-plugin-flowtype": "^2.3.0",

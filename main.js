@@ -8,6 +8,8 @@ const BrowserWindow = electron.BrowserWindow;
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow, authWindow;
+let isDevelopment = process.env.NODE_ENV === 'development';
+
 
 const createWindow = () => {
     // Create the browser window.
@@ -16,7 +18,7 @@ const createWindow = () => {
         height: 600,
         webPreferences: {
             nodeIntegration: true,
-            preload: path.join(__dirname, '/src/indexpreload.js'),
+            preload: path.join(__dirname, '/app/indexpreload.js'),
         }
     });
 
@@ -42,7 +44,7 @@ const createAuthWindow = () => {
         height: 10,
         webPreferences: {
             nodeIntegration: false,
-            preload: path.join(__dirname, '/src/authpreload.js'),
+            preload: path.join(__dirname, '/app/authpreload.js'),
         }
     });
 

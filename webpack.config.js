@@ -7,8 +7,8 @@ var config = {
     entry: {
         devClient: 'webpack-dev-server/client?http://localhost:3000',
         devServer: 'webpack/hot/only-dev-server',
-        index: './src/index',
-        auth: './src/auth',
+        index: './app/index',
+        auth: './app/auth',
     },
     module: {
         loaders: [{
