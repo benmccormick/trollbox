@@ -23,7 +23,7 @@ const createWindow = () => {
     });
 
     // and load the index.html of the app.
-    mainWindow.loadURL('file://' + __dirname + '/index.html');
+    mainWindow.loadURL('file://' + __dirname + '/app/index.html');
 
     // Open the DevTools.
     mainWindow.webContents.openDevTools();
@@ -49,7 +49,7 @@ const createAuthWindow = () => {
     });
 
     // and load the index.html of the app.
-    authWindow.loadURL('file://' + __dirname + '/auth.html');
+    authWindow.loadURL('file://' + __dirname + '/app/auth.html');
 
     // Emitted when the window is closed.
     authWindow.on('closed', () => {
