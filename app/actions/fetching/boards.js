@@ -6,7 +6,7 @@ import type { dispatchFn, getStateFn } from '../../interfaces/redux';
 
 export const UPDATE_BOARDS = 'UPDATE_BOARDS';
 
-const getBoardsFromClient = (dispatch: dispatchFn, getState: getStateFn) => t => (
+const getBoardsFromClient = (dispatch: dispatchFn) => (t: any) => (
     t.get('member/me/boards').then((boards: Board[]) => {
         dispatch({
             type: UPDATE_BOARDS,

@@ -4,14 +4,14 @@ const {ipcRenderer} = require('electron');
 
 const useToken = (token: string, trelloClient: any, resolve: any) => {
     trelloClient.setToken(token);
-    resolve(token);
+    resolve(trelloClient);
 };
 
 const getToken = (trelloClient: any, resolve: any) => {
     ipcRenderer.send('get-token');
     ipcRenderer.on('set-token', (event, token) => {
         localStorage.setItem('trelloToken', token);
-        useToken(token);
+        useToken(token, trelloClient, resolve);
     });
 };
 

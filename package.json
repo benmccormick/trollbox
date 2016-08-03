@@ -5,8 +5,8 @@
   "description": "A fast search tool for Trello",
   "main": "main.js",
   "scripts": {
-    "start": "NODE_ENV=development && electron main.js",
-    "startProd": "NODE_ENV=production && electron main.js",
+    "start": "cross-env NODE_ENV=development electron main.js",
+    "startProd": "cross-env NODE_ENV=production electron main.js",
     "flow": "flow; test $? -eq 0 -o $? -eq 2",
     "package": "NODE_ENV=production && node package.js",
     "build": "webpack"
@@ -36,6 +36,7 @@
     "babel-loader": "^6.2.4",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.8.0",
     "babel-preset-react": "^6.5.0",
+    "cross-env": "^2.0.0",
     "css-loader": "^0.23.1",
     "del": "^2.2.1",
     "electron-packager": "^7.4.0",

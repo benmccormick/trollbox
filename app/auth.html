@@ -13,7 +13,7 @@
       (function() {
         const script = document.createElement('script');
         //eventually make this conditional
-        script.src = (window.isHot) ? 'http://localhost:3000/dist/auth.bundle.js' : '../dist/auth.bundle.js';
+        script.src = (window.isDev) ? 'http://localhost:3000/dist/auth.bundle.js' : '../dist/auth.bundle.js';
         document.write(script.outerHTML);
       }());
     </script>
