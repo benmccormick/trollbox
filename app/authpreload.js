@@ -4,4 +4,5 @@ let {ipcRenderer} = require('electron');
 process.once('loaded', () => {
     global.ipcRenderer = ipcRenderer;
     global.trelloKey = trelloKey;
+    global.isHot = process.env.HOT
 });
