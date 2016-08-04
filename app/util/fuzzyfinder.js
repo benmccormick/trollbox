@@ -105,9 +105,19 @@ scoreUserName = (card: Card, filterStr: string): number => {
 // it returns a number between 0 and 1
 fullMatch = (filterStr: string, text: string) => {
     //look for direct matches first
+    if (lowerCase(filterStr) === lowerCase(text)) {
+        //small bonus for correct casing
+        return filterStr === text ? 1 : 0.98;
+    }
+    // look for matches on part of the search string next
+    if (includes(lowerCase(text), lowerCase(filterStr))) {
+        //small bonus for correct casing
+        return includes(text, filterStr) ? .98 : 0.96;
+    }
+    // finally look for substring matches on part of the text
     if (includes(lowerCase(filterStr), lowerCase(text))) {
         //small bonus for correct casing
-        return includes(filterStr, text) ? 1 : 0.98;
+        return includes(filterStr, text) ? .96 : 0.94;
     }
     let filterWords = words(filterStr);
     let indices = map(filterWords, word => text.indexOf(word));
