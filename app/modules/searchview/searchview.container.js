@@ -1,6 +1,7 @@
 /* @flow */
 import { bindActionCreators } from 'redux';
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { switchViewToBoards } from '../../actions/view';
 import { getSearchFilter, getSearchResults } from '../../data/search';
@@ -9,9 +10,10 @@ import { CardView } from './card.component';
 import { map } from 'lodash';
 import { searchContainer, searchInput, searchPage} from './search.css';
 
-type Input = {
+type Input = React$Component & {
     value: string
 };
+
 
 export class SearchView extends React.Component {
 
@@ -25,6 +27,12 @@ export class SearchView extends React.Component {
     onChange() {
         if (this.searchField) {
             this.props.updateSearchFilter(this.searchField.value);
+        }
+    }
+
+    componentDidMount() {
+        if (this.searchField) {
+            ReactDOM.findDOMNode(this.searchField).focus();
         }
     }
 
