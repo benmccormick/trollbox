@@ -5,18 +5,33 @@ import {getAllListsFromBoards} from '../actions/fetching/lists';
 import {getAllUsersFromBoards} from '../actions/fetching/users';
 import {startScheduler, addJob, FIVE_MINUTE, ONE_DAY} from '../util/scheduler';
 
-export const retrieveUserData = (store: any) => {
+type fn = () => any;
 
-    const getBoards = () => store.dispatch(getAllBoards);
-    const getCards = () => store.dispatch(getAllCardsFromBoards);
-    const getLists = () => store.dispatch(getAllListsFromBoards);
-    const getUsers = () => store.dispatch(getAllUsersFromBoards);
+const buildFetchingFunctions = (dispatch: fn) => {
+    const getBoards: fn = () => dispatch(getAllBoards);
+    const getCards: fn = () => dispatch(getAllCardsFromBoards);
+    const getLists: fn = () => dispatch(getAllListsFromBoards);
+    const getUsers: fn = () => dispatch(getAllUsersFromBoards);
+
+    return {
+        getBoards,
+        getCards,
+        getLists,
+        getUsers,
+    };
+};
+
+export const getAllUserData = (dispatch: fn) => {
+    let {getCards, getBoards, getLists, getUsers} = buildFetchingFunctions(dispatch);
 
     getCards();
     getBoards();
     getLists();
     getUsers();
+};
 
+const setUpJobs = (store: any) => {
+    let {getCards, getBoards, getLists, getUsers} = buildFetchingFunctions(store.dispatch);
     addJob({
         interval: FIVE_MINUTE,
         name: 'Get Cards',
@@ -47,4 +62,9 @@ export const retrieveUserData = (store: any) => {
 
 
     startScheduler();
+};
+
+export const initializeUserData = (store: any) => {
+    getAllUserData(store.dispatch);
+    setUpJobs(store);
 };
