@@ -1,3 +1,8 @@
+export type Label = {
+    name: string,
+    color: string,
+}
+
 export type Card = {
     id: string,
     dateLastActivity: string,
@@ -8,6 +13,7 @@ export type Card = {
     idBoard: string,
     idList: string,
     closed: boolean,
+    labels: Label[],
 };
 
 export type Board = {
