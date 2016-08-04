@@ -8,7 +8,7 @@ type ScoredCard = [string, number, Card];
 export type ResultSet = [Card, Card, Card, Card, Card];
 
 let score, scoreName, scoreRecency, buildScoreArr, getScore, getCard, scoreBoardName,
-    fullMatch, cheapMatch, scoreDescription, scoreListName, scoreUserName;
+    fullMatch, cheapMatch, scoreDescription, scoreListName, scoreUserName, scoreLabelNames;
 
 
 export const find = (cards: Card[], filterStr: string): ResultSet => {
@@ -42,9 +42,12 @@ score = (card: Card, filterStr: string): number => {
     // Score based on user name (0 - 150)
     let userNameScore = scoreUserName(card, filterStr) * 150;
 
+    let labelNamesScore =
+        reduce(scoreLabelNames(card, filterStr), (num, _score) => num + _score * 30, 0);
+
     //aggregate the scores
     return nameScore + recencyScore + boardNameScore + cardDescriptionScore +
-        listNameScore + userNameScore;
+        listNameScore + userNameScore + labelNamesScore;
 };
 
 
@@ -56,6 +59,11 @@ scoreName = (card: Card, filterStr: string): number => {
 scoreDescription = (card: Card, filterStr: string): number => {
     let {description} = card;
     return cheapMatch(filterStr, description);
+};
+
+scoreLabelNames = (card: Card, filterStr: string): number[] => {
+    let {labels} = card;
+    return map(labels, label => fullMatch(filterStr, label.name));
 };
 
 scoreBoardName = (card: Card, filterStr: string): number => {
