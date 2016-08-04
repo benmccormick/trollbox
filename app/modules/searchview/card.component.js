@@ -1,7 +1,8 @@
 /* @flow */
 import React from 'react';
 import {get} from 'lodash';
-import {cardContainer, cardName, cardHeader, cardBody} from './search.css';
+import {cardContainer, cardName, cardHeader, cardBody, cardLabel, cardLabels} from './search.css';
+import {getHexCodeForLabelColor} from '../../util/label_color_mapping';
 import type {Card} from '../../interfaces/trello';
 let {shell} = require('electron');
 
@@ -10,7 +11,7 @@ type CVProps = {
 };
 
 export const CardView = (props: CVProps) => {
-    let {name, shortUrl, board, list, members} = props.card;
+    let {name, shortUrl, board, list, members, labels} = props.card;
     let {prefs: {
         backgroundColor
     }, name: boardName} = board;
@@ -21,9 +22,14 @@ export const CardView = (props: CVProps) => {
             <span>{boardName} - {listName}</span>
         </div>
         <div className={cardBody}>
-            <div>
-                <span className={cardName}>{name}</span>
+            <div className={cardLabels}>
+                {labels.map(label => <span
+                    className={cardLabel}
+                    style={{backgroundColor: getHexCodeForLabelColor(label.color)}}
+                >{label.name}</span>)
+                }
             </div>
+            <div className={cardName}>{name}</div>
             <div>
             {members.map(member => <img src={get(member, 'avatarURL')}/>)}
             </div>

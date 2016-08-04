@@ -49,8 +49,8 @@
     min-height:40px;
     width: 100%;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    padding: 10px 20px;
     border-radius: 0 0 10px 10px;
 }
 
@@ -61,4 +61,25 @@
 .cardName {
     color: #333333;
     font-size: 16px;
+    padding: 10px 20px;
+}
+
+.cardLabel {
+    display: inline-block;
+    min-width: 50px;
+    padding:0 5px;
+    height: 20px;
+    line-height: 20px;
+    color: white;
+    font-size: 10px;
+    white-space: nowrap;
+}
+
+.cardLabels {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    margin-top:0;
+    padding:0;
+    width: 100%;
 }
