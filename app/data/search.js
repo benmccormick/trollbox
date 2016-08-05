@@ -1,15 +1,23 @@
 /* @flow */
-import { CHANGE_SEARCH_FILTER } from '../actions/search';
-import { getSelectedCards } from './cards';
-import { find } from '../util/fuzzyfinder';
+import { CHANGE_SEARCH_FILTER, UPDATE_RESULT_SET } from '../actions/search';
 import type { ResultSet } from '../util/fuzzyfinder';
 import type { actionType} from '../interfaces/redux';
+import type { Card } from '../interfaces/trello';
 
 export const getSearchFilter = (state: any): string => state.searchFilter;
+
 export const getSearchResults = (state: any): ResultSet => {
-    let filter = getSearchFilter(state);
-    let cards = getSelectedCards(state);
-    return filter ? find(cards, filter) : [];
+    return state.searchResults;
+};
+
+export const searchResults = (state : Card[] = [], action: actionType) => {
+    let { type, results } = action;
+    switch (type) {
+    case UPDATE_RESULT_SET:
+        return results;
+    default:
+        return state;
+    }
 };
 
 export const searchFilter = (state : string = '', action: actionType) => {

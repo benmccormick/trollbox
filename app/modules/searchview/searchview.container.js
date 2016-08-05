@@ -8,57 +8,34 @@ import { getSearchFilter, getSearchResults } from '../../data/search';
 import { updateSearchFilter } from '../../actions/search';
 import { CardView } from './card.component';
 import { map } from 'lodash';
-import { searchContainer, searchInput, searchPage} from './search.css';
-
-type Input = React$Component & {
-    value: string
-};
+import {SearchInput} from './searchinput.component';
+import { searchContainer, searchPage} from './search.css';
 
 
-export class SearchView extends React.Component {
-
-    searchField: ?Input;
-
-    constructor(props: any) {
-        super(props);
-        this.searchField = null;
-    }
-
-    onChange() {
-        if (this.searchField) {
-            this.props.updateSearchFilter(this.searchField.value);
-        }
-    }
-
-    componentDidMount() {
-        if (this.searchField) {
-            ReactDOM.findDOMNode(this.searchField).focus();
-        }
-    }
-
-    render() {
-        let {searchFilter, results} = this.props;
-        let cards = map(results, card => {
-            return <CardView card={card} />;
-        });
-        return (<div className={searchPage}>
+export const SearchView = (props: any) => {
+    let {searchFilter,
+        results,
+        switchViewToBoards: _switchViewToBoards,
+        updateSearchFilter: _updateSearchFilter,
+    } = props;
+    let cards = map(results, card => {
+        return <CardView card={card} />;
+    });
+    return (<div className={searchPage}>
+        <div>
+            <button onClick={_switchViewToBoards}>See Boards</button>
+        </div>
+        <div className={searchContainer}>
             <div>
-                <button onClick={this.props.switchViewToBoards}>See Boards</button>
+                <SearchInput
+                    initialValue={searchFilter}
+                    updateSearchFilter={_updateSearchFilter}
+                />
             </div>
-            <div className={searchContainer}>
-                <div>
-                    <input
-                        className={searchInput}
-                        defaultValue={searchFilter}
-                        ref={el => this.searchField = el}
-                        onKeyUp={() => this.onChange()}
-                    />
-                </div>
-                {cards}
-            </div>
-        </div>);
-    }
-}
+            {cards}
+        </div>
+    </div>);
+};
 
 SearchView.propTypes = {
     switchViewToBoards: React.PropTypes.func.isRequired,
