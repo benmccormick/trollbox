@@ -1,5 +1,5 @@
 /* @flow */
-import { map, includes, sortBy, take, lowerCase, words, filter,
+import { map, includes, sortBy, take, lowerCase, words, filter, some,
     gt, every, max, reduce} from 'lodash';
 import type {Card} from '../interfaces/trello';
 import moment from 'moment';
@@ -8,27 +8,30 @@ type ScoredCard = [string, number, Card];
 export type ResultSet = [Card, Card, Card, Card, Card];
 
 let score, scoreName, scoreRecency, buildScoreArr, getScore, getCard, scoreBoardName,
-    fullMatch, cheapMatch, scoreDescription, scoreListName, scoreUserName, scoreLabelNames;
+    fullMatch, cheapMatch, scoreDescription, scoreListName, scoreUserName, scoreLabelNames,
+    currentUserOnCard;
 
 
-export const find = (cards: Card[], filterStr: string): ResultSet => {
+
+export const find = (cards: Card[], filterStr: string, currentUserId: ?string): ResultSet => {
     //For now we care about name and dateLastActivity
     //we'll award between 0 and 100 points for a card name match and
     //between 0 and 10 points for a recency bonus
-    let scores: ScoredCard[] = sortBy(map(cards, buildScoreArr(filterStr)), getScore );
+    let scores: ScoredCard[] =
+        sortBy(map(cards, buildScoreArr(filterStr, currentUserId)), getScore );
     let selectedCards: ResultSet = map(take(scores, 5), getCard);
     return selectedCards;
 
 };
 
 
-buildScoreArr = (filterStr:string) => (card: Card): ScoredCard =>
-    [card.id, score(card, filterStr), card];
+buildScoreArr = (filterStr:string, currentUserId: ?string) => (card: Card): ScoredCard =>
+    [card.id, score(card, filterStr, currentUserId), card];
 
-score = (card: Card, filterStr: string): number => {
-    //For now we care about name and dateLastActivity
-    //we'll award between 0 and 100 points for a card name match and
-    //between 0 and 10 points for a recency bonus
+score = (card: Card, filterStr: string, currentUserId: ?string): number => {
+
+    /* filter scores: based on the user search entry */
+
     // Score based on name of card (0 - 100)
     let nameScore = scoreName(card, filterStr) * 100;
     // Score based on recency (0 - 10)
@@ -42,12 +45,17 @@ score = (card: Card, filterStr: string): number => {
     // Score based on user name (0 - 150)
     let userNameScore = scoreUserName(card, filterStr) * 150;
 
+    /* intrinsic scores: these aren't based on the filterStr */
+
+    // Score based on whether the current user is on the card (30)
+    let currentUserScore = currentUserOnCard(card, currentUserId) * 30;
+
     let labelNamesScore =
         reduce(scoreLabelNames(card, filterStr), (num, _score) => num + _score * 30, 0);
 
     //aggregate the scores
     return nameScore + recencyScore + boardNameScore + cardDescriptionScore +
-        listNameScore + userNameScore + labelNamesScore;
+        listNameScore + userNameScore + labelNamesScore + currentUserScore;
 };
 
 
@@ -75,6 +83,11 @@ scoreBoardName = (card: Card, filterStr: string): number => {
 scoreListName = (card: Card, filterStr: string): number => {
     let {list: {name: listName}} = card;
     return fullMatch(filterStr, listName);
+};
+
+currentUserOnCard = (card: Card, currentUserId: ?string) => {
+    let {users} = card;
+    return some(users, user => user.id === currentUserId) ? 1 : 0;
 };
 
 scoreRecency = (card:Card): number => {

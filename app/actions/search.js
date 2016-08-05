@@ -3,6 +3,7 @@ import type { changeSearchFilterAction, dispatchFn, getStateFn } from '../interf
 import {debounce} from 'lodash';
 import {getSearchFilter} from '../data/search.js';
 import { getSelectedCards } from '../data/cards';
+import { getCurrentUserId } from '../data/users';
 import { find } from '../util/fuzzyfinder';
 
 export const CHANGE_SEARCH_FILTER = 'CHANGE_SEARCH_FILTER';
@@ -16,7 +17,8 @@ export const searchWithCurrentState = debounce((state: any, filter: string) => {
 export const updateResultSet = (dispatch: dispatchFn, getState: getStateFn) => {
     let state = getState();
     let filter = getSearchFilter(state);
-    let results = filter ? searchWithCurrentState(state, filter) : [];
+    let currentUserId = getCurrentUserId(state);
+    let results = filter ? searchWithCurrentState(state, filter, currentUserId) : [];
     dispatch({
         type: UPDATE_RESULT_SET,
         results,
