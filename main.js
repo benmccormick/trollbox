@@ -1,7 +1,7 @@
 const electron = require('electron');
 const path = require('path');
 // Module to control application life.
-const {app, ipcMain} = electron;
+const {app, ipcMain, Menu} = electron;
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
 
@@ -62,12 +62,6 @@ const createAuthWindow = () => {
     });
 };
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.on('ready', () => {
-    createWindow();
-});
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
@@ -96,4 +90,40 @@ ipcMain.on('set-token', (event, token) => {
     authWindow.close();
     //send along to the main process
     sendTokenBack(token);
+});
+
+
+let template = [{
+    label: 'Application',
+    submenu: [
+        {
+            label: 'About Application', selector: 'orderFrontStandardAboutPanel:'
+        },
+        {
+            type: 'separator'
+        },
+        {
+            label: 'Quit', accelerator: 'Command+Q', click: () => app.quit()
+        }
+    ]
+}, {
+    label: 'Edit',
+    submenu: [
+        { label: 'Undo', accelerator: 'CmdOrCtrl+Z', selector: 'undo:' },
+        { label: 'Redo', accelerator: 'Shift+CmdOrCtrl+Z', selector: 'redo:' },
+        { type: 'separator' },
+        { label: 'Cut', accelerator: 'CmdOrCtrl+X', selector: 'cut:' },
+        { label: 'Copy', accelerator: 'CmdOrCtrl+C', selector: 'copy:' },
+        { label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:' },
+        { label: 'Select All', accelerator: 'CmdOrCtrl+A', selector: 'selectAll:' }
+    ]
+}];
+
+
+// This method will be called when Electron has finished
+// initialization and is ready to create browser windows.
+// Some APIs can only be used after this event occurs.
+app.on('ready', () => {
+    createWindow();
+    Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 });
