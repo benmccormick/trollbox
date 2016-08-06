@@ -12,7 +12,6 @@ let score, scoreName, scoreRecency, buildScoreArr, getScore, getCard, scoreBoard
     currentUserOnCard;
 
 
-
 export const find = (cards: Card[], filterStr: string, currentUserId: ?string): ResultSet => {
     //For now we care about name and dateLastActivity
     //we'll award between 0 and 100 points for a card name match and
@@ -32,7 +31,7 @@ score = (card: Card, filterStr: string, currentUserId: ?string): number => {
 
     /* filter scores: based on the user search entry */
 
-    // Score based on name of card (0 - 100)
+    // Score based on name of card (0 - 100 )
     let nameScore = scoreName(card, filterStr) * 100;
     // Score based on recency (0 - 10)
     let recencyScore = scoreRecency(card) * 10;
@@ -41,7 +40,7 @@ score = (card: Card, filterStr: string, currentUserId: ?string): number => {
     // Score based on card description (0 - 60)
     let cardDescriptionScore = scoreDescription(card, filterStr) * 60;
     // Score based on list name (0 - 60)
-    let listNameScore = scoreListName(card, filterStr) * 60;
+    let listNameScore = card.list ? scoreListName(card, filterStr) * 60 : 0;
     // Score based on user name (0 - 150)
     let userNameScore = scoreUserName(card, filterStr) * 150;
 
