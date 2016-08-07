@@ -3,18 +3,6 @@ export type Label = {
     color: string,
 }
 
-export type Card = {
-    id: string,
-    dateLastActivity: string,
-    name: string,
-    description: string,
-    shortUrl: string,
-    url: string,
-    idBoard: string,
-    idList: string,
-    closed: boolean,
-    labels: Label[],
-};
 
 export type Board = {
     id: string,
@@ -40,4 +28,20 @@ export type User = {
     fullName: string,
     initials: string,
     username: string,
+};
+
+export type Card = {
+    id: string,
+    dateLastActivity: string,
+    name: string,
+    description: string,
+    shortUrl: string,
+    url: string,
+    idBoard: string,
+    idList: string,
+    closed: boolean,
+    labels: Label[],
+    board: ?Board,
+    list: ?List,
+    members: ?User[],
 };
