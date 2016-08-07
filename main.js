@@ -1,66 +1,18 @@
 const electron = require('electron');
-const path = require('path');
-// Module to control application life.
-const {app, ipcMain, Menu} = electron;
-// Module to create native browser window.
-const BrowserWindow = electron.BrowserWindow;
+const getMenuTemplate = require('./server/menu_template');
+const createWindow = require('./server/main_window');
+require('./server/auth_window');
+
+// Modules to control application life and menu
+const {app, Menu} = electron;
+
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow, authWindow;
+let mainWindow = null;
+
+// Checking to see whether we're in dev or prod mode
 let isDevelopment = process.env.NODE_ENV === 'development';
-
-
-const createWindow = () => {
-    // Create the browser window.
-    mainWindow = new BrowserWindow({
-        width: 800,
-        height: 600,
-        webPreferences: {
-            nodeIntegration: true,
-            preload: path.join(__dirname, '/app/indexpreload.js'),
-        }
-    });
-
-    // and load the index.html of the app.
-    mainWindow.loadURL('file://' + __dirname + '/app/index.html');
-
-    // Open the DevTools.
-    if (isDevelopment) {
-        mainWindow.webContents.openDevTools();
-    }
-
-    // Emitted when the window is closed.
-    mainWindow.on('closed', () => {
-        // Dereference the window object, usually you would store windows
-        // in an array if your app supports multi windows, this is the time
-        // when you should delete the corresponding element.
-        mainWindow = null;
-    });
-};
-
-const createAuthWindow = () => {
-    // Create the browser window.
-    authWindow = new BrowserWindow({
-        width: 10,
-        height: 10,
-        webPreferences: {
-            nodeIntegration: false,
-            preload: path.join(__dirname, '/app/authpreload.js'),
-        }
-    });
-
-    // and load the index.html of the app.
-    authWindow.loadURL('file://' + __dirname + '/app/auth.html');
-
-    // Emitted when the window is closed.
-    authWindow.on('closed', () => {
-        // Dereference the window object, usually you would store windows
-        // in an array if your app supports multi windows, this is the time
-        // when you should delete the corresponding element.
-        authWindow = null;
-    });
-};
 
 
 // Quit when all windows are closed.
@@ -76,54 +28,16 @@ app.on('activate', () => {
     // On OS X it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (mainWindow === null) {
-        createWindow();
+        mainWindow = createWindow(isDevelopment);
     }
 });
-
-let sendTokenBack = () => null;
-ipcMain.on('get-token', (event, token) => {
-    createAuthWindow();
-    sendTokenBack = t => event.sender.send('set-token', t);
-});
-
-ipcMain.on('set-token', (event, token) => {
-    authWindow.close();
-    //send along to the main process
-    sendTokenBack(token);
-});
-
-
-let template = [{
-    label: 'Application',
-    submenu: [
-        {
-            label: 'About Application', selector: 'orderFrontStandardAboutPanel:'
-        },
-        {
-            type: 'separator'
-        },
-        {
-            label: 'Quit', accelerator: 'Command+Q', click: () => app.quit()
-        }
-    ]
-}, {
-    label: 'Edit',
-    submenu: [
-        { label: 'Undo', accelerator: 'CmdOrCtrl+Z', selector: 'undo:' },
-        { label: 'Redo', accelerator: 'Shift+CmdOrCtrl+Z', selector: 'redo:' },
-        { type: 'separator' },
-        { label: 'Cut', accelerator: 'CmdOrCtrl+X', selector: 'cut:' },
-        { label: 'Copy', accelerator: 'CmdOrCtrl+C', selector: 'copy:' },
-        { label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:' },
-        { label: 'Select All', accelerator: 'CmdOrCtrl+A', selector: 'selectAll:' }
-    ]
-}];
-
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
-    createWindow();
-    Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+    mainWindow = createWindow(isDevelopment);
+    let menuTemplate = getMenuTemplate(app);
+    let menu = Menu.buildFromTemplate(menuTemplate);
+    Menu.setApplicationMenu(menu);
 });
