@@ -4,12 +4,19 @@ import { map, includes, sortBy, take, lowerCase, words, filter, some,
 import type {Card} from '../interfaces/trello';
 import moment from 'moment';
 
-type ScoredCard = [string, number, Card];
-export type ResultSet = [Card, Card, Card, Card, Card];
+type Score = {score: number, scoreBreakdown: any};
+
+type ScoredCard = [string, Score, Card];
+export type Result = {
+    cardId: string,
+    score: number,
+    scoreBreakdown: any,
+}
+export type ResultSet = Result[];
 
 let score, scoreName, scoreRecency, buildScoreArr, getScore, getCard, scoreBoardName,
     fullMatch, cheapMatch, scoreDescription, scoreListName, scoreUserName, scoreLabelNames,
-    currentUserOnCard;
+    currentUserOnCard, getResult, getScoreBreakdown;
 
 
 export const find = (cards: Card[], filterStr: string, currentUserId: ?string): ResultSet => {
@@ -18,7 +25,7 @@ export const find = (cards: Card[], filterStr: string, currentUserId: ?string): 
     //between 0 and 10 points for a recency bonus
     let scores: ScoredCard[] =
         sortBy(map(cards, buildScoreArr(filterStr, currentUserId)), getScore );
-    let selectedCards: ResultSet = map(take(scores, 5), getCard);
+    let selectedCards: ResultSet = map(take(scores, 10), getResult);
     return selectedCards;
 
 };
@@ -27,7 +34,7 @@ export const find = (cards: Card[], filterStr: string, currentUserId: ?string): 
 buildScoreArr = (filterStr:string, currentUserId: ?string) => (card: Card): ScoredCard =>
     [card.id, score(card, filterStr, currentUserId), card];
 
-score = (card: Card, filterStr: string, currentUserId: ?string): number => {
+score = (card: Card, filterStr: string, currentUserId: ?string): Score => {
 
     /* filter scores: based on the user search entry */
 
@@ -53,8 +60,22 @@ score = (card: Card, filterStr: string, currentUserId: ?string): number => {
         reduce(scoreLabelNames(card, filterStr), (num, _score) => num + _score * 30, 0);
 
     //aggregate the scores
-    return nameScore + recencyScore + boardNameScore + cardDescriptionScore +
+    let aggregateScore = nameScore + recencyScore + boardNameScore + cardDescriptionScore +
         listNameScore + userNameScore + labelNamesScore + currentUserScore;
+
+    return {
+        score: aggregateScore,
+        scoreBreakdown: {
+            nameScore,
+            recencyScore,
+            boardNameScore,
+            cardDescriptionScore,
+            listNameScore,
+            userNameScore,
+            labelNamesScore,
+            currentUserScore,
+        },
+    };
 };
 
 
@@ -156,6 +177,17 @@ cheapMatch = (filterStr, text) => {
     return includes(lowerCase(filterStr), lowerCase(text)) ? 1 : 0;
 };
 
-getScore = (scoredCard: ScoredCard): number => 0 - scoredCard[1];
+getScore = (scoredCard: ScoredCard): number => 0 - scoredCard[1].score;
+
+getScoreBreakdown = (scoredCard: ScoredCard): any => scoredCard[1].scoreBreakdown;
 
 getCard = (scoredCard: ScoredCard): Card => scoredCard[2];
+
+
+getResult = (scoredCard: ScoredCard): Result => {
+    return {
+        cardId: getCard(scoredCard).id,
+        score: 0 - getScore(scoredCard),
+        scoreBreakdown: getScoreBreakdown(scoredCard),
+    };
+};

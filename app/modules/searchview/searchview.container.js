@@ -18,8 +18,9 @@ export const SearchView = (props: any) => {
         switchViewToBoards: _switchViewToBoards,
         updateSearchFilter: _updateSearchFilter,
     } = props;
-    let cards = map(results, card => {
-        return <CardView card={card} />;
+    let cards = map(results, result => {
+        let {card, score, scoreBreakdown} = result;
+        return <CardView card={card} score={score} scoreBreakdown={scoreBreakdown}/>;
     });
     return (<div className={searchPage}>
         <div>

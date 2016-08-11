@@ -23,6 +23,10 @@ export const getSelectedCards = (state: any): Card[] => {
     return map(filter(cards, card => includes(selectedBoards, card.idBoard)), decorateCard(state));
 };
 
+export const getCardById =
+    (state: any, cardId: string): Card => decorateCard(state)(get(state, ['cards', cardId ]));
+
+
 export const cards = (state : CardMap = {}, action: actionType) => {
     let { type, cards: _cards } = action;
     switch (type) {

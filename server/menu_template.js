@@ -23,5 +23,16 @@ module.exports = app => {
             { label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:' },
             { label: 'Select All', accelerator: 'CmdOrCtrl+A', selector: 'selectAll:' }
         ]
+    }, {
+        label: 'View',
+        submenu: [{
+            label: 'Reload',
+            accelerator: 'CmdOrCtrl+R',
+            click(item, focusedWindow) {
+                if (focusedWindow) {
+                    focusedWindow.reload();
+                }
+            }
+        }]
     }];
 };

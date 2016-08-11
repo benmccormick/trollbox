@@ -1,16 +1,21 @@
 /* @flow */
 import { CHANGE_SEARCH_FILTER, UPDATE_RESULT_SET } from '../actions/search';
-import type { ResultSet } from '../util/fuzzyfinder';
+import { map, extend } from 'lodash';
+import {getCardById} from './cards';
+import type { ResultSet, Result } from '../util/fuzzyfinder';
 import type { actionType} from '../interfaces/redux';
-import type { Card } from '../interfaces/trello';
 
 export const getSearchFilter = (state: any): string => state.searchFilter;
 
 export const getSearchResults = (state: any): ResultSet => {
-    return state.searchResults;
+    return map(state.searchResults, (result: Result): Result => {
+        return extend({}, result, {
+            card: getCardById(state, result.cardId),
+        });
+    });
 };
 
-export const searchResults = (state : Card[] = [], action: actionType) => {
+export const searchResults = (state : ResultSet = [], action: actionType) => {
     let { type, results } = action;
     switch (type) {
     case UPDATE_RESULT_SET:
