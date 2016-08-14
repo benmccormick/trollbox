@@ -46,6 +46,6 @@ describe('find', () => {
 
         let results1 = find([card1, card2], 'Card Number One', '123');
 
-        expect(results1[0]).toBe(card1);
+        expect(results1[0].cardId).toBe(card1.id);
     });
 });
