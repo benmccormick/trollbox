@@ -161,14 +161,14 @@ fullMatch = (filterStr: string, text: string) => {
         return includes(filterStr, text) ? .96 : 0.94;
     }
     let filterWords = words(filterStr);
-    let indices = map(filterWords, word => text.indexOf(word));
+    let indices: number[] = map(filterWords, word => text.indexOf(word));
 
     //we give up to .8 points for matching each word individually, and a bonus .10 for all matches
     //being in order
-    let matches = filter(indices, i => gt(i, 0));
+    let matches: number[] = filter(indices, (i:number):boolean => gt(i, 0));
     let baseScore = matches.length * 0.8 / filterWords.length;
-    let getsBonus =
-        matches.length > 1 && every(matches, (num, idx, list) => !idx || num > list[idx - 1]);
+    let getsBonus = matches.length > 1 && every(matches,
+            (num:number, idx:number, list:number[]):boolean => !idx || num > list[idx - 1]);
     let bonus = getsBonus ? 0.1 : 0;
     return baseScore + bonus;
 };

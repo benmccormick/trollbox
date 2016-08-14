@@ -1,0 +1,30 @@
+
+export type LabelFilter = {
+    color?: string,
+    name?: string,
+    id?: string,
+};
+
+export type NameFilter = {
+    contains?: string,
+};
+
+
+export type View = {
+    id: string,
+    name: string,
+    sources: {
+        boards: string[],
+        lists: {
+            [boardId: string]: {
+                includeByDefault: boolean,
+                includedLists: string[],
+                excludedLists: string[],
+            }
+        }
+    },
+    filters: {
+        labels: ?LabelFilter[],
+        name: ?NameFilter[],
+    }
+}

@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { searchInput } from './search.css';
 
-type Input = React$Component & {
+type Input = React$Component<any, any, any> & {
     value: string
 };
 

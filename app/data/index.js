@@ -4,6 +4,7 @@ import { cards } from './cards';
 import { lists } from './lists';
 import { boards, selectedBoards } from './boards';
 import { view } from './view';
+import { views, viewsOrder } from './views';
 import { users, currentUserId } from './users';
 import { searchFilter, searchResults } from './search';
 
@@ -16,5 +17,7 @@ export default combineReducers({
     searchResults,
     selectedBoards,
     view,
+    views,
+    viewsOrder,
     searchFilter,
 });

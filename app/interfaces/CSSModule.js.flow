@@ -1,3 +1,16 @@
 /* eslint-disable */
 // @flow
 declare export var className: string;
+declare export var appShell: string;
+declare export var boardsContainer: string;
+declare export var boardSummary: string;
+declare export var boardTitle: string;
+declare export var cardContainer: string;
+declare export var cardName: string;
+declare export var cardBody: string;
+declare export var cardLabel: string;
+declare export var cardLabels: string;
+declare export var cardHeader: string;
+declare export var searchInput: string;
+declare export var searchContainer: string;
+declare export var searchPage: string;

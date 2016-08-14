@@ -28,7 +28,7 @@ type job = {
     runOnce: boolean,
 };
 
-type maybejob = job | null | false | '' | 0;
+type maybejob = ?job;
 
 let jobQueue: job[] = [];
 let currentTime: number = 0;
@@ -56,7 +56,7 @@ export const addJob = (j: newJob) => {
 };
 
 export const cancelJob = (jobId: number) => {
-    remove(jobQueue, (j:job) => j.id === jobId);
+    remove(jobQueue, (j:job): boolean => j.id === jobId);
 };
 
 runJobs = () => {
