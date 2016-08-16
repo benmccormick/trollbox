@@ -9,6 +9,15 @@ export type NameFilter = {
     contains?: string,
 };
 
+export type ListSourceDefinition = {
+    includeByDefault: true,
+    excludedLists: string[],
+} | {
+
+    includeByDefault: false,
+    includedLists: string[],
+};
+
 
 export type View = {
     id: string,
@@ -16,15 +25,11 @@ export type View = {
     sources: {
         boards: string[],
         lists: {
-            [boardId: string]: {
-                includeByDefault: boolean,
-                includedLists: string[],
-                excludedLists: string[],
-            }
-        }
+            [boardId: string]: ListSourceDefinition,
+        },
     },
     filters: {
-        labels: ?LabelFilter[],
-        name: ?NameFilter[],
+        labels?: LabelFilter[],
+        name?: NameFilter[],
     }
 }

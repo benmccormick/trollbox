@@ -15,3 +15,16 @@
     font-family: Helvetia Neue, Helvetica, Roboto, Arial, sans-serif;
     overflow-y: auto;
 }
+
+.pageContainer {
+    display: flex;
+    justify-content: flex-start;
+    flex-grow: 1;
+}
+
+.sidebarContainer {
+    display: flex;
+    justify-content: flex-start;
+    width: 150px;
+    flex-shrink:0;
+}

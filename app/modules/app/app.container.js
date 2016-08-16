@@ -1,8 +1,9 @@
 /* @flow */
 import React from 'react';
-import {appShell} from './app.css';
+import {appShell, pageContainer, sidebarContainer} from './app.css';
 import {BoardListContainer} from '../boardlist/boardlist.container';
 import {SearchViewContainer} from '../searchview/searchview.container';
+import {SidebarContainer} from '../sidebar/sidebar.container';
 import {getView} from '../../data/view';
 import {SEARCH_VIEW, BOARD_VIEW} from '../../actions/view';
 import { connect } from 'react-redux';
@@ -23,7 +24,12 @@ export class App extends React.Component {
             break;
         }
         return (<div className={appShell}>
-            {page}
+            <div className={sidebarContainer}>
+                <SidebarContainer/>
+            </div>
+            <div className={pageContainer}>
+                {page}
+            </div>
         </div>);
     }
 };

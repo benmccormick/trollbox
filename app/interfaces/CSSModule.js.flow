@@ -14,3 +14,8 @@ declare export var cardHeader: string;
 declare export var searchInput: string;
 declare export var searchContainer: string;
 declare export var searchPage: string;
+declare export var pageContainer: string;
+declare export var sidebarContainer: string;
+declare export var viewItem: string;
+declare export var addViewItem: string;
+declare export var sidebar: string;
