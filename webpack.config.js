@@ -1,8 +1,10 @@
-var path = require('path');
-var webpack = require('webpack');
-var webpackTargetElectronRenderer = require('webpack-target-electron-renderer');
+const webpack = require('webpack');
+const webpackTargetElectronRenderer = require('webpack-target-electron-renderer');
+const Dashboard = require('webpack-dashboard');
+const DashboardPlugin = require('webpack-dashboard/plugin');
+const dashboard = new Dashboard();
 
-var config = {
+const config = {
     devtool: 'eval',
     entry: {
         devClient: 'webpack-dev-server/client?http://localhost:3000',
@@ -15,17 +17,19 @@ var config = {
             test: /\.js$/,
             loaders: ['babel'],
             exclude: /node_modules/,
-        },{
+        }, {
             test: /\.css$/,
             loader: 'style!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
         }]
     },
     output: {
         path: __dirname + '/dist',
+        quiet: true,
         publicPath: 'http://localhost:3000/dist/',
         filename: '[name].bundle.js',
     },
     plugins: [
+        new DashboardPlugin(dashboard.setData),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoErrorsPlugin()
     ],
