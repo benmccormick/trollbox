@@ -6,6 +6,6 @@
 ./node_modules/iflow-lodash/index.js.flow
 
 [options]
-module.name_mapper='^\(.*\)\.css$' -> '<PROJECT_ROOT>/app/interfaces/CSSModule.js.flow'
+module.name_mapper='^\(.*\)\.css\(\?global=true\)?$' -> '<PROJECT_ROOT>/app/interfaces/CSSModule.js.flow'
 module.name_mapper='electron' -> 'empty'
 suppress_type=$FlowIssue

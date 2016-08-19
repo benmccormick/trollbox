@@ -9,24 +9,12 @@ export type NameFilter = {
     contains?: string,
 };
 
-export type ListSourceDefinition = {
-    includeByDefault: true,
-    excludedLists: string[],
-} | {
-
-    includeByDefault: false,
-    includedLists: string[],
-};
-
 
 export type View = {
     id: string,
     name: string,
     sources: {
         boards: string[],
-        lists: {
-            [boardId: string]: ListSourceDefinition,
-        },
     },
     filters: {
         labels?: LabelFilter[],

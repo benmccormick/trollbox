@@ -1,5 +1,5 @@
 import { CHANGE_VIEW, SEARCH_VIEW, BOARD_VIEW } from '../actions/view';
-import { ADD_VIEW } from '../actions/views';
+import { ADD_VIEW, CHANGE_SELECTED_VIEW } from '../actions/views';
 import { CHANGE_SEARCH_FILTER } from '../actions/search';
 import { UPDATE_CARDS } from '../actions/fetching/cards';
 import { UPDATE_LISTS } from '../actions/fetching/lists';
@@ -19,6 +19,11 @@ export type ViewMap = { [viewId: string]: View };
 export type addViewAction = {
     type: ADD_VIEW,
     view: View
+};
+
+export type changeSelectedViewAction = {
+    type: CHANGE_SELECTED_VIEW,
+    id: string,
 };
 
 export type CardMap = { [key: string]: Card };
@@ -62,6 +67,7 @@ export type actionType =
     updateListsAction |
     toggleBoardAction |
     addViewAction |
+    changeSelectedViewAction |
     changeSearchFilterAction;
 
 export type dispatchFn = (x: actionType) => void;
