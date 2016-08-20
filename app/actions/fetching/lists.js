@@ -2,7 +2,7 @@
 import {getTrelloClient} from '../../setup/trello_client';
 import {cleanListsFromAPI} from '../../util/api_cleaner';
 import {map, flatten} from 'lodash';
-import {getSelectedBoards} from '../../data/boards';
+import {getSourceBoards} from '../../data/boards';
 import type {List} from '../../interfaces/trello';
 import type { dispatchFn, getStateFn } from '../../interfaces/redux';
 
@@ -19,7 +19,7 @@ const updateListsFromLists = (dispatch: dispatchFn) =>
 
 const getListsFromEachBoard = (dispatch: dispatchFn, getState: getStateFn) => (t: any) => {
     let getListsFromBoardId = boardId => getListsFromBoard(boardId, t);
-    let selectedBoards = getSelectedBoards(getState());
+    let selectedBoards = getSourceBoards(getState());
     let fetchPromises = map(selectedBoards, getListsFromBoardId);
     Promise.all(fetchPromises)
         .then(updateListsFromLists(dispatch))

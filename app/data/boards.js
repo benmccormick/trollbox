@@ -1,11 +1,14 @@
 /* @flow */
 import { UPDATE_BOARDS } from '../actions/fetching/boards';
-import {assign, get, sortBy, without, union, includes, map, filter} from 'lodash';
-import {SELECT_BOARD, DESELECT_BOARD} from '../actions/boardselection';
+import {assign, get, sortBy, union, includes, map, filter} from 'lodash';
 import type {Board} from '../interfaces/trello';
 import type { actionType, BoardMap } from '../interfaces/redux';
 
-export const getSelectedBoards = (state: any): string[] => get(state, 'selectedBoards');
+export const getSourceBoards = (state: any): string[] => {
+    let viewsObject = get(state, 'views');
+    let sourcesByView = map(viewsObject, view => view.sources.boards);
+    return union(...sourcesByView);
+};
 
 const byMostRecent = (board: Board): number => {
     let {dateLastView} = board;
@@ -20,7 +23,7 @@ const getOpenBoards = (state: any): Board[] => filter(get(state, 'boards', []), 
 const getSortedBoards = (state: any): Board[] => sortBy(getOpenBoards(state), byMostRecent);
 
 const isSelected = (state: any, board: Board): boolean =>
-    includes(getSelectedBoards(state), board.id);
+    includes(getSourceBoards(state), board.id);
 
 const updateBoard = (state: any) => (board: Board): Board =>
     assign(board, {isSelected: isSelected(state, board)});
@@ -35,18 +38,6 @@ export const boards = (state : BoardMap = {}, action: actionType): BoardMap => {
     switch (type) {
     case UPDATE_BOARDS:
         return assign({}, state, _boards);
-    default:
-        return state;
-    }
-};
-
-export const selectedBoards = (state : string[] = [], action: actionType): string[] => {
-    let { type, boardId} = action;
-    switch (type) {
-    case SELECT_BOARD:
-        return union(state, [boardId]);
-    case DESELECT_BOARD:
-        return without(state, boardId);
     default:
         return state;
     }
