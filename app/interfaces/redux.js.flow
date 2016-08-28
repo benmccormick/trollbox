@@ -1,4 +1,4 @@
-import { CHANGE_VIEW, SEARCH_VIEW, BOARD_VIEW } from '../actions/view';
+import { CHANGE_VIEW, SEARCH_VIEW } from '../actions/view';
 import { ADD_VIEW, CHANGE_SELECTED_VIEW } from '../actions/views';
 import { CHANGE_SEARCH_FILTER } from '../actions/search';
 import { UPDATE_CARDS } from '../actions/fetching/cards';
@@ -9,7 +9,7 @@ import {SELECT_BOARD, DESELECT_BOARD} from '../actions/boardselection';
 import { Card, Board, List } from './trello';
 import { View } from './view';
 
-export type viewOption = SEARCH_VIEW | BOARD_VIEW;
+export type viewOption = SEARCH_VIEW;
 export type changeViewAction = {
     type: CHANGE_VIEW,
     view: viewOption,
