@@ -1,42 +1,36 @@
 /* @flow */
 import React from 'react';
 import { connect } from 'react-redux';
-import { map } from 'lodash';
+import { get, map } from 'lodash';
 import { bindActionCreators } from 'redux';
-import { getAllViews } from '../../data/views';
+import { getAllViews, getCurrentView } from '../../data/views';
 import { addView, changeSelectedView } from '../../actions/views';
 import { switchViewToViewEditor } from '../../actions/view';
-import { sidebar, addViewItem } from './sidebar.css';
+import { sidebar, addViewItem, addViewItemIcon } from './sidebar.css';
 import {ViewItem} from './viewitem.component';
 import MdAddCircleOutline from 'react-icons/lib/md/add-circle-outline';
 
 export class Sidebar extends React.Component {
 
     addView() {
-        // let {addView: _addView} = this.props;
-        //
-        // _addView({
-        //     name: 'Test View',
-        //     sources: {
-        //
-        //     },
-        //     filters: {
-        //
-        //     },
-        // });
         let {switchViewToViewEditor: createNewView} = this.props;
         createNewView();
     }
 
     render() {
-        let {views, changeSelectedView: selectView} = this.props;
+        let {views, changeSelectedView: selectView, currentView} = this.props;
+        let currentViewId = get(currentView, 'id', null);
         let viewElements = map(views, view => <ViewItem
             view={view}
+            isSelected = {view.id === currentViewId}
             selectView={() => selectView(view.id)}
         />);
         return <div className={sidebar}>
             <div className={addViewItem}>
-                Views <MdAddCircleOutline onClick={() => this.addView()}/>
+                Views <MdAddCircleOutline
+                    onClick={() => this.addView()}
+                    className={addViewItemIcon}
+                />
             </div>
             {viewElements}
         </div>;
@@ -46,12 +40,14 @@ export class Sidebar extends React.Component {
 Sidebar.propTypes = {
     views: React.PropTypes.array.isRequired,
     addView: React.PropTypes.func.isRequired,
+    currentView: React.PropTypes.object.isRequired,
     switchViewToViewEditor: React.PropTypes.func.isRequired,
     changeSelectedView: React.PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
     views: getAllViews(state),
+    currentView: getCurrentView(state),
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
