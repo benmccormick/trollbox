@@ -1,28 +1,24 @@
 /* @flow */
 import React from 'react';
 import {appShell, pageContainer, sidebarContainer} from './app.css';
-import {BoardListContainer} from '../boardlist/boardlist.container';
 import {SearchViewContainer} from '../searchview/searchview.container';
 import {SidebarContainer} from '../sidebar/sidebar.container';
 import {ViewEditorContainer} from '../vieweditor/vieweditor.container';
-import {getView} from '../../data/view';
-import {SEARCH_VIEW, BOARD_VIEW, VIEW_EDITOR_VIEW} from '../../actions/view';
+import {getPage} from '../../data/page';
+import { SEARCH_PAGE, VIEW_EDITOR_PAGE } from '../../actions/page';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 export class App extends React.Component {
     render() {
-        let page = false;
-        let {view} = this.props;
-        switch (view) {
-        case SEARCH_VIEW:
-            page = <SearchViewContainer/>;
+        let pageContents = false;
+        let {page} = this.props;
+        switch (page) {
+        case SEARCH_PAGE:
+            pageContents = <SearchViewContainer/>;
             break;
-        case BOARD_VIEW:
-            page = <BoardListContainer/>;
-            break;
-        case VIEW_EDITOR_VIEW:
-            page = <ViewEditorContainer/>;
+        case VIEW_EDITOR_PAGE:
+            pageContents = <ViewEditorContainer/>;
             break;
         default:
             break;
@@ -32,19 +28,19 @@ export class App extends React.Component {
                 <SidebarContainer/>
             </div>
             <div className={pageContainer}>
-                {page}
+                {pageContents}
             </div>
         </div>);
     }
 };
 
 App.propTypes = {
-    view: React.PropTypes.string.isRequired,
+    page: React.PropTypes.string.isRequired,
 };
 
 
 const mapStateToProps = state => ({
-    view: getView(state),
+    page: getPage(state),
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({

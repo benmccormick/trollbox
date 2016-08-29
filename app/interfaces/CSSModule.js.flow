@@ -32,3 +32,4 @@ declare export var nameForm: string;
 declare export var container: string;
 declare export var form: string;
 declare export var nameForm: string;
+declare export var addViewItemIcon: string;

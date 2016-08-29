@@ -2,8 +2,8 @@
 import { combineReducers } from 'redux';
 import { cards } from './cards';
 import { lists } from './lists';
-import { boards, selectedBoards } from './boards';
-import { view } from './view';
+import { boards } from './boards';
+import { page } from './page';
 import { views, viewsOrder, currentView } from './views';
 import { users, currentUserId } from './users';
 import { searchFilter, searchResults } from './search';
@@ -15,8 +15,7 @@ export default combineReducers({
     boards,
     lists,
     searchResults,
-    selectedBoards,
-    view,
+    page,
     views,
     viewsOrder,
     currentView,

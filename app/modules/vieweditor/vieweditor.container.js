@@ -7,7 +7,7 @@ import {map} from 'lodash';
 import { getAllBoards } from '../../data/boards';
 import {addView} from '../../actions/views';
 import {container, form, formLabel, formInput, formSelect, primaryButton} from './vieweditor.css';
-import { switchViewToSearch } from '../../actions/view';
+import { switchPageToSearch } from '../../actions/page';
 import type { Board} from '../../interfaces/trello';
 import type { View } from '../../interfaces/view';
 import 'react-select/dist/react-select.css?global=true';
@@ -38,7 +38,7 @@ export class ViewEditor extends React.Component {
     }
 
     buildView() {
-        let {addView: _addView, switchViewToSearch: _switchViewToSearch} = this.props;
+        let {addView: _addView, switchPageToSearch: _switchViewToSearch} = this.props;
         let {name, selectedBoards} = this.state;
         let newView: View = {
             name,
@@ -94,7 +94,7 @@ export class ViewEditor extends React.Component {
 ViewEditor.propTypes = {
     boards: React.PropTypes.array.isRequired,
     addView: React.PropTypes.func.isRequired,
-    switchViewToSearch: React.PropTypes.func.isRequired,
+    switchPageToSearch: React.PropTypes.func.isRequired,
 };
 
 
@@ -104,7 +104,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
     addView,
-    switchViewToSearch,
+    switchPageToSearch,
 }, dispatch);
 
 

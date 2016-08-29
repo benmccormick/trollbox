@@ -5,7 +5,7 @@ import { get, map } from 'lodash';
 import { bindActionCreators } from 'redux';
 import { getAllViews, getCurrentView } from '../../data/views';
 import { addView, changeSelectedView } from '../../actions/views';
-import { switchViewToViewEditor } from '../../actions/view';
+import { switchPageToViewEditor } from '../../actions/page';
 import { sidebar, addViewItem, addViewItemIcon } from './sidebar.css';
 import {ViewItem} from './viewitem.component';
 import MdAddCircleOutline from 'react-icons/lib/md/add-circle-outline';
@@ -13,7 +13,7 @@ import MdAddCircleOutline from 'react-icons/lib/md/add-circle-outline';
 export class Sidebar extends React.Component {
 
     addView() {
-        let {switchViewToViewEditor: createNewView} = this.props;
+        let {switchPageToViewEditor: createNewView} = this.props;
         createNewView();
     }
 
@@ -41,7 +41,7 @@ Sidebar.propTypes = {
     views: React.PropTypes.array.isRequired,
     addView: React.PropTypes.func.isRequired,
     currentView: React.PropTypes.object.isRequired,
-    switchViewToViewEditor: React.PropTypes.func.isRequired,
+    switchPageToViewEditor: React.PropTypes.func.isRequired,
     changeSelectedView: React.PropTypes.func.isRequired,
 };
 
@@ -52,7 +52,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
     addView,
-    switchViewToViewEditor,
+    switchPageToViewEditor,
     changeSelectedView,
 }, dispatch);
 
