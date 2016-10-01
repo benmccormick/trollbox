@@ -2,6 +2,7 @@
 import type { addViewAction, changeSelectedViewAction, dispatchFn, getStateFn }
     from '../interfaces/redux';
 import {updateResultSet} from './search';
+import { getAllBoards } from './fetching/boards';
 import type {View} from '../interfaces/view';
 import uuid from 'uuid';
 
@@ -15,6 +16,7 @@ export const changeSelectedView = (viewId: string): changeSelectedViewAction =>
             id: viewId,
         });
         updateResultSet(dispatch, getState);
+        getAllBoards(dispatch);
     };
 
 // Add a new view (assigns a new uuid)
